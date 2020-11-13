@@ -558,6 +558,9 @@ respectively:
 
 
 ```rust
+# #[cfg(feature = "serde")]
+# mod feature_capsule {
+#
 use serde_derive::{Deserialize, Serialize};
 
 #[serde(crate = "serde_")]
@@ -566,17 +569,20 @@ struct Foo {
     bar: String,
 }
 
-let value = Foo {
-    bar: "hello".into(),
-};
+fn main() -> Result<(), bendy::serde::Error> {
+    let value = Foo {
+        bar: "hello".into(),
+    };
 
-let bencode = bendy::serde::to_bytes(&value)?;
-assert_eq!(bencode, b"d3:bar5:helloe");
+    let bencode = bendy::serde::to_bytes(&value)?;
+    assert_eq!(bencode, b"d3:bar5:helloe");
 
-let deserialized = bendy::serde::from_bytes::<Foo>(&bencode)?;
-assert_eq!(deserialized, value);
+    let deserialized = bendy::serde::from_bytes::<Foo>(&bencode)?;
+    assert_eq!(deserialized, value);
 
-Ok::<(), bendy::serde::Error>(())
+    Ok(())
+}
+# }
 ```
 
 Information on how Rust types are represented in bencode is available in the
