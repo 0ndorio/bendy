@@ -25,7 +25,7 @@ pub mod value;
 // -----------------------------------------------------------------------------
 
 #[rustversion::since(1.40)]
-mod doctest {
+const _ : () = {
     #[cfg(doctest)]
     doc_comment::doctest!("../README.md");
-}
+};
